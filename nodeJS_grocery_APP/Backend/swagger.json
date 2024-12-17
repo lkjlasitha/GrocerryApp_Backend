@@ -1,0 +1,249 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Grocery App",
+        "description": "A sample Api for Grocery App",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "localhost:5000",
+    "basePath": "/",
+    "tags": [
+        {
+            "name": "Category",
+            "description": "Category API"
+        }
+    ],
+    "schemes": ["http"],
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "paths": {
+        "/api/category": {
+            "get": {
+                "tags": ["Category"],
+                "summary": "Get all categories",
+                "parameters": [
+                    {
+                        "name": "categoryName",
+                        "in": "query",
+                        "description": "How many items to return at one time (max 100)",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "type": "integer",
+                        "default": 1
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "Page Size",
+                        "required": false,
+                        "type": "integer",
+                        "default": 10
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                             "$ref": "#/definitions/ServiceResponse"
+                          }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": ["Category"],
+                "summary": "Create a new category API",
+                "parameters": [
+                    {
+                        "name": "categoryName",
+                        "in": "formData",
+                        "description": "Category Name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "categoryDescription",
+                        "in": "formData",
+                        "description": "Category Description",
+                        "type": "string"
+                    },
+                    {
+                        "name": "categoryImage",
+                        "in": "formData",
+                        "description": "Category Image",
+                        "type": "file"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                             "$ref": "#/definitions/ServiceResponse"
+                          }
+                        }
+                    }
+                }
+            },
+            "/api/category/{id}": {
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Category id",
+                        "required": true,
+                        "type": "String"
+                    }
+                ],
+                "get": {
+                    "tags" : ["Category"],
+                    "summary" : "Category Details based on Category id",
+                    "responses" : {
+                        "200" : {
+                            "description":"OK",
+                            "schema": {
+                                "$ref":"#/definitions/ServiceResponse"
+                            }
+                        }
+                    }
+                },
+                "put": {
+                    "tags" : ["Category"],
+                    "summary" : "Update category API",
+                    "parameters": [
+                        {
+                            "name": "categoryName",
+                            "in" : "formData",
+                            "description" : "Category Name",
+                            "required" : true,
+                            "type" : "String"
+                        },
+                        {
+                            "name": "categoryDescription",
+                            "in" : "formData",
+                            "description" : "Category Description",
+                            "type" : "String"
+                        },
+                        {
+                            "name": "categoryImage",
+                            "in" : "formData",
+                            "description" : "Category Image",
+                            "type" : "file"
+                        }
+                    ],
+                    "responses" : {
+                        "200" : {
+                            "description":"OK",
+                            "schema": {
+                                "$ref":"#/definitions/ServiceResponse"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                                "$ref": "#/definitions/ServiceResponse"
+                            }
+                        }
+                    }
+                },
+                "put": {
+                    "tags": ["Category"],
+                    "summary": "Update category by id",
+                    "parameters": [
+                        {
+                            "name": "categoryId",
+                            "in": "path",
+                            "description": "ID of category to return",
+                            "required": true,
+                            "type": "integer"
+                        },
+                        {
+                            "name": "categoryName",
+                            "in": "formData",
+                            "description": "Category Name",
+                            "required": true,
+                            "type": "string"
+                        },
+                        {
+                            "name": "categoryDescription",
+                            "in": "formData",
+                            "description": "Category Description",
+                            "type": "string"
+                        },
+                        {
+                            "name": "categoryImage",
+                            "in": "formData",
+                            "description": "Category Image",
+                            "type": "file"
+                        }
+                    ],
+                    "responses": {
+                        "200": {
+                            "description": "OK",
+                            "schema": {
+                                 "$ref": "#/definitions/ServiceResponse"
+                            }
+                        }
+                    }
+                },
+                "delete": {
+                    "tags": ["Category"],
+                    "summary": "Delete category API",
+                    "responses": {
+                        "200": {
+                            "description": "OK",
+                            "schema": {
+                                "$ref": "#/definitions/ServiceResponse"
+                            }
+                        }
+                    }
+                },
+                 "definition" : {
+                    "category" : {
+                        "required": ["categoryName", "_id"],
+                        "properties" : {
+                            "_id" : {
+                                "type" :"integer",
+                                "uniqueItems" : true
+                            },
+                            "categoryName" : {
+                                "type" : "String"
+                            },
+                            "categoryDescription" : {
+                                "type" : "String"
+                            },
+                            "categoryImage" : {
+                                "type" : "String"
+                            }
+                        }
+                    },
+                    "ServiceResponse" : {
+                        "properties" : {
+                            "message" : {
+                                "type" : "String"
+                            },
+                            "data" : {
+                                "type" : "array",
+                                "items" : {
+                                    "$ref" : "#/definitions/Category"
+                                }
+                            }
+                        }
+                    }
+                 }
+                 
+}
+            
+
