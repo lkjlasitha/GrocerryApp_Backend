@@ -2,24 +2,20 @@ const multer = require('multer');
 const path = require('path');
 
 const storage = multer.diskStorage({
-    destination: function(req, file , cb){
-        cb(null, "./uploade/categories");
+    destination: function(req, file, cb) {
+        cb(null, path.join(__dirname, "../uploade/categories"));
     },
-    filename: function(req, file, cb){
+    filename: function(req, file, cb) {
         cb(null, Date.now() + "-" + file.originalname);
     }
 });
 
-const fileFilter = (req , file, callback) => {
-    const acceptableExt = [".png" , ".jpg" , ".jpeg"];
-    if (!acceptableExt.includes(path.extname(file.originalname).toLowerCase())) {
-        return callback(new Error('Only .pnf .jpg and .jpeg images are allowed'));
-    }
+const fileFilter = (req, file, callback) => {
+    const acceptableExt = [".png", ".jpg", ".jpeg"];
+    const fileExt = path.extname(file.originalname).toLowerCase();
 
-    const fileSize = parseInt(req.headers["content-length"]);
-
-    if (fileSize > 1048576){
-        return callback(new Error('File size should not exceed 1MB'));
+    if (!acceptableExt.includes(fileExt)) {
+        return callback(new Error('Only .png, .jpg, and .jpeg images are allowed'));
     }
 
     callback(null, true);
@@ -29,8 +25,8 @@ let upload = multer({
     storage: storage,
     fileFilter: fileFilter,
     limits: {
-        fileSize: 1048576
+        fileSize: 1048576 // 1MB file size limit
     }
 });
 
-module.exports = upload.single('categoryImage');
+module.exports = upload.single('category_image'); 
